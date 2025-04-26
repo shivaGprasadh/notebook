@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTPS Handshaking and TLS Deep Dive - Shiva G Prasadh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">&lt;/shiva G prasadh&gt;</div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../about.html">About Me</a></li>
+                    <li><a href="security-fundamentals.html">Security Blog</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <article class="blog-post">
+            <div class="container">
+                <h1 class="post-title">HTTPS Handshaking and TLS Deep Dive</h1>
+                <div class="post-meta">
+                    <span class="post-date">Published on April 26, 2025</span>
+                </div>
+                <div class="post-content">
+                    <p>HTTPS (Hypertext Transfer Protocol Secure) is a fundamental security protocol that enables secure communication over the internet. At its core lies the TLS (Transport Layer Security) handshake, a sophisticated process that establishes encrypted connections between clients and servers. This article explores the mechanics of HTTPS, the TLS handshake process, and its critical role in securing web communications.</p>
+                    
+                    <h2>Understanding HTTPS: More Than Just HTTP with Security</h2>
+                    <p>HTTPS combines the standard HTTP protocol with an encryption layer (TLS, formerly SSL) to provide three key security benefits:</p>
+                    <ul>
+                        <li><strong>Authentication</strong>: Verifies the identity of the website you're connecting to</li>
+                        <li><strong>Data Integrity</strong>: Ensures data hasn't been modified during transmission</li>
+                        <li><strong>Encryption</strong>: Protects the privacy of data exchanged between browser and server</li>
+                    </ul>
+                    
+                    <p>When you connect to a website using HTTPS, your browser first establishes a secure connection through the TLS handshake before any HTTP data is exchanged. This handshake is a precisely choreographed sequence of messages that negotiates the security parameters for the connection.</p>
+                    
+                    <h2>The TLS Handshake: A Step-by-Step Breakdown</h2>
+                    <p>The TLS handshake is a crucial process that occurs before any actual data transfer. It has evolved through several versions, with TLS 1.3 (released in 2018) being the most recent and secure. Let's examine the handshake process for both TLS 1.2 and the optimized TLS 1.3:</p>
+                    
+                    <h3>TLS 1.2 Handshake (Still widely used)</h3>
+                    <ol>
+                        <li><strong>Client Hello</strong>: The client (browser) sends:
+                            <ul>
+                                <li>The highest TLS version it supports</li>
+                                <li>A list of supported cipher suites (encryption algorithms)</li>
+                                <li>A random value called "Client Random"</li>
+                                <li>Extensions that specify additional capabilities</li>
+                            </ul>
+                        </li>
+                        <li><strong>Server Hello</strong>: The server responds with:
+                            <ul>
+                                <li>The selected TLS version</li>
+                                <li>The chosen cipher suite from the client's list</li>
+                                <li>A random value called "Server Random"</li>
+                                <li>The server's SSL certificate containing its public key</li>
+                            </ul>
+                        </li>
+                        <li><strong>Certificate Validation</strong>: The client:
+                            <ul>
+                                <li>Verifies the server's certificate against trusted root certificates</li>
+                                <li>Checks the certificate's validity period and revocation status</li>
+                                <li>Confirms the certificate was issued for the correct domain</li>
+                            </ul>
+                        </li>
+                        <li><strong>Key Exchange</strong>: The client generates a "Pre-Master Secret" and encrypts it with the server's public key, then sends it to the server.</li>
+                        <li><strong>Session Key Derivation</strong>: Both client and server independently derive the same session keys from:
+                            <ul>
+                                <li>Client Random</li>
+                                <li>Server Random</li>
+                                <li>Pre-Master Secret</li>
+                            </ul>
+                        </li>
+                        <li><strong>Finished Messages</strong>: Both sides exchange "Finished" messages encrypted with the new session keys to verify the handshake was successful.</li>
+                    </ol>
+                    
+                    <h3>TLS 1.3 Handshake (Modern, faster approach)</h3>
+                    <p>TLS 1.3 dramatically simplifies the handshake process, reducing the round trips required:</p>
+                    <ol>
+                        <li><strong>Client Hello</strong>: Similar to TLS 1.2, but now includes:
+                            <ul>
+                                <li>Key share for each supported group (e.g., various elliptic curves)</li>
+                                <li>Only secure cipher suites (older, vulnerable options removed)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Server Hello, Certificate, and Finished</strong>: The server combines multiple steps into one response:
+                            <ul>
+                                <li>Server Hello with selected parameters</li>
+                                <li>Certificate and signature</li>
+                                <li>Server's key share</li>
+                                <li>Finished message encrypted with derived keys</li>
+                            </ul>
+                        </li>
+                        <li><strong>Client Finished</strong>: The client sends its Finished message, completing the handshake.</li>
+                    </ol>
+                    
+                    <p>TLS 1.3 achieves a remarkable improvement by completing the handshake in just 1 round trip (compared to 2 in TLS 1.2). It also supports "0-RTT" (Zero Round Trip Time) resumption, allowing clients to send encrypted data immediately when reconnecting to recently visited servers.</p>
+                    
+                    <h2>Key Exchange Methods: The Heart of Secure Communications</h2>
+                    <p>The key exchange is perhaps the most critical part of the TLS handshake, as it establishes the shared secret that will be used for encryption. Several methods are used:</p>
+                    
+                    <h3>RSA Key Exchange (TLS 1.2 and earlier)</h3>
+                    <p>In RSA key exchange:</p>
+                    <ol>
+                        <li>The client generates a Pre-Master Secret</li>
+                        <li>This secret is encrypted with the server's public key from its certificate</li>
+                        <li>The server decrypts it using its private key</li>
+                    </ol>
+                    <p>While effective, RSA key exchange lacks forward secrecy, meaning if the server's private key is ever compromised, past recorded traffic could be decrypted.</p>
+                    
+                    <h3>Diffie-Hellman (DH) and Elliptic Curve Diffie-Hellman (ECDH)</h3>
+                    <p>These methods allow both parties to derive a shared secret without ever transmitting it:</p>
+                    <ol>
+                        <li>Both client and server generate their own private and public values</li>
+                        <li>They exchange public values</li>
+                        <li>Each side performs a calculation using their private value and the other's public value</li>
+                        <li>The result is mathematically guaranteed to be identical on both sides</li>
+                    </ol>
+                    <p>This provides forward secrecy, as the keys are generated for each session and not dependent on the server's long-term private key.</p>
+                    
+                    <p>TLS 1.3 exclusively uses Ephemeral Diffie-Hellman methods (DHE or ECDHE), eliminating the less secure RSA key exchange entirely.</p>
+                    
+                    <h2>Certificate Validation: Trust But Verify</h2>
+                    <p>Certificate validation is essential to the security of HTTPS connections. The process involves:</p>
+                    
+                    <h3>Chain of Trust</h3>
+                    <p>SSL/TLS certificates operate in a hierarchical structure:</p>
+                    <ol>
+                        <li><strong>Root Certificate Authorities (CAs)</strong>: Trusted entities whose certificates are pre-installed in operating systems and browsers</li>
+                        <li><strong>Intermediate CAs</strong>: Organizations certified by root CAs to issue certificates</li>
+                        <li><strong>End-entity certificates</strong>: The actual certificates issued to websites</li>
+                    </ol>
+                    
+                    <h3>Validation Checks</h3>
+                    <p>Browsers perform several checks when validating a certificate:</p>
+                    <ul>
+                        <li>Verify the digital signature using the issuer's public key</li>
+                        <li>Check that the certificate hasn't expired</li>
+                        <li>Ensure it hasn't been revoked (using CRLs or OCSP)</li>
+                        <li>Confirm the domain name matches the certificate's Subject/SAN fields</li>
+                        <li>Trace the certificate chain up to a trusted root CA</li>
+                    </ul>
+                    
+                    <h3>Certificate Transparency</h3>
+                    <p>Modern browsers also check Certificate Transparency (CT) logs—public, append-only databases that record all issued certificates. This system helps detect misissued or malicious certificates by making the certificate ecosystem more transparent and accountable.</p>
+                    
+                    <h2>Cipher Suites: The Encryption Toolkit</h2>
+                    <p>Cipher suites are combinations of algorithms that determine how the TLS connection is secured. A cipher suite typically includes:</p>
+                    <ul>
+                        <li>Key exchange algorithm (e.g., ECDHE)</li>
+                        <li>Authentication method (e.g., RSA, ECDSA)</li>
+                        <li>Bulk encryption algorithm (e.g., AES-256-GCM)</li>
+                        <li>Message Authentication Code algorithm (e.g., SHA-384)</li>
+                    </ul>
+                    
+                    <p>In TLS 1.3, cipher suites have been simplified to focus only on the symmetric encryption algorithm and hash function, as the key exchange is always an ephemeral Diffie-Hellman variant.</p>
+                    
+                    <p>A modern, secure cipher suite might look like:</p>
+                    <ul>
+                        <li>TLS 1.2: <code>TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</code></li>
+                        <li>TLS 1.3: <code>TLS_AES_256_GCM_SHA384</code></li>
+                    </ul>
+                    
+                    <h2>Session Resumption: Balancing Performance and Security</h2>
+                    <p>Performing a full TLS handshake for every connection can be computationally expensive. To improve performance, TLS offers mechanisms for resuming previous sessions:</p>
+                    
+                    <h3>TLS 1.2 Methods</h3>
+                    <ul>
+                        <li><strong>Session IDs</strong>: The server stores session parameters indexed by an ID</li>
+                        <li><strong>Session Tickets</strong>: The server encrypts session parameters and sends them to the client for storage</li>
+                    </ul>
+                    
+                    <h3>TLS 1.3 Improvements</h3>
+                    <ul>
+                        <li><strong>PSK (Pre-Shared Key)</strong>: Replaces both previous methods with a more secure approach</li>
+                        <li><strong>0-RTT Resumption</strong>: Allows sending application data in the first message, reducing latency</li>
+                    </ul>
+                    
+                    <p>While 0-RTT offers performance benefits, it has some security limitations, particularly regarding replay protection, so it should be used carefully.</p>
+                    
+                    <h2>Conclusion</h2>
+                    <p>The HTTPS handshake represents one of the most important security protocols in our daily digital lives. Its elegant design demonstrates the challenges and solutions in creating secure communications over an inherently insecure medium. By understanding how HTTPS and TLS work, security professionals can better implement, troubleshoot, and secure web applications.</p>
+                    
+                    <p>As attack methods continue to evolve, so too does TLS, with each version bringing improved security and performance. The migration to TLS 1.3 represents a significant step forward, simplifying the protocol while enhancing its security properties. For organizations running web services, staying current with TLS best practices remains a fundamental security requirement in an increasingly hostile online environment.</p>
+                </div>
+                <div class="post-footer">
+                    <a href="../index.html" class="back-link">← Back to Home</a>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Shiva G Prasadh. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

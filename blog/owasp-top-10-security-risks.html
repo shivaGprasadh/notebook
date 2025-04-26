@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OWASP Top 10 Security Risks - Shiva G Prasadh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">&lt;/shiva G prasadh&gt;</div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../about.html">About Me</a></li>
+                    <li><a href="security-fundamentals.html">Security Blog</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <article class="blog-post">
+            <div class="container">
+                <h1 class="post-title">OWASP Top 10 Security Risks</h1>
+                <div class="post-meta">
+                    <span class="post-date">Published on April 28, 2025</span>
+                </div>
+                <div class="post-content">
+                    <p>The Open Web Application Security Project (OWASP) Top 10 is a standard awareness document for developers and web application security practitioners. It represents a broad consensus about the most critical security risks to web applications. This article explores the current OWASP Top 10 list, explaining each risk and providing guidance on how to mitigate them.</p>
+                    
+                    <h2>1. Broken Access Control</h2>
+                    <p>Access control enforces policies such that users cannot act outside their intended permissions. Failures typically lead to unauthorized disclosure, modification, or destruction of data.</p>
+                    
+                    <p><strong>Common vulnerabilities include:</strong></p>
+                    <ul>
+                        <li>Violation of the principle of least privilege</li>
+                        <li>Bypassing access control checks by modifying the URL or HTML page</li>
+                        <li>Permitting viewing or editing someone else's account by providing its unique identifier</li>
+                        <li>Accessing API without access controls for POST, PUT, and DELETE</li>
+                        <li>Elevation of privilege (acting as a user without being logged in or acting as an admin when logged in as a user)</li>
+                    </ul>
+                    
+                    <p><strong>Prevention measures:</strong></p>
+                    <ul>
+                        <li>Implement server-side access controls for all sensitive functions and resources</li>
+                        <li>Deny access by default, except for public resources</li>
+                        <li>Use rate limiting to minimize automated attack impacts</li>
+                        <li>Disable web server directory listing</li>
+                        <li>Log access control failures and alert administrators</li>
+                    </ul>
+                    
+                    <h2>2. Cryptographic Failures</h2>
+                    <p>Failures related to cryptography often lead to exposure of sensitive data. This category includes inadequate encryption of sensitive data and common mistakes in implementing encryption.</p>
+                    
+                    <p><strong>Common vulnerabilities include:</strong></p>
+                    <ul>
+                        <li>Transmitting sensitive data in clear text</li>
+                        <li>Using deprecated or weak cryptographic algorithms</li>
+                        <li>Using default or weak cryptographic keys</li>
+                        <li>Not enforcing encryption using directives like HTTP Strict Transport Security (HSTS)</li>
+                        <li>Using passwords as cryptographic keys without proper key derivation</li>
+                    </ul>
+                    
+                    <p><strong>Prevention measures:</strong></p>
+                    <ul>
+                        <li>Classify data processed, stored, or transmitted by an application</li>
+                        <li>Apply controls according to the classification</li>
+                        <li>Don't store sensitive data unnecessarily</li>
+                        <li>Use strong up-to-date algorithms, protocols, and keys</li>
+                        <li>Encrypt all sensitive data at rest and in transit</li>
+                        <li>Use strong adaptive and salted hashing functions for passwords</li>
+                    </ul>
+                    
+                    <h2>3. Injection</h2>
+                    <p>Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query.</p>
+                    
+                    <p><strong>Common vulnerabilities include:</strong></p>
+                    <ul>
+                        <li>User-supplied data is not validated, filtered, or sanitized</li>
+                        <li>Dynamic queries or non-parameterized calls without context-aware escaping</li>
+                        <li>Hostile data used within object-relational mapping search parameters</li>
+                        <li>Hostile data directly used or concatenated in dynamic queries, commands, or stored procedures</li>
+                    </ul>
+                    
+                    <p><strong>Prevention measures:</strong></p>
+                    <ul>
+                        <li>Use a safe API that avoids using interpreters entirely</li>
+                        <li>Use parameterized queries or prepared statements</li>
+                        <li>Use LIMIT and other SQL controls within queries to prevent mass disclosure of records</li>
+                        <li>Use input validation with allowlist approach</li>
+                    </ul>
+                    
+                    <h2>4. Insecure Design</h2>
+                    <p>Insecure design refers to flaws in the design and architecture of applications, as distinct from implementation flaws. It involves failures in threat modeling, secure design patterns, and proper security requirements.</p>
+                    
+                    <p><strong>Common vulnerabilities include:</strong></p>
+                    <ul>
+                        <li>Lack of business risk profiling in the software or system being built</li>
+                        <li>Failure to determine the security requirements and controls needed</li>
+                        <li>Establishing trust boundaries and access controls based on untrusted inputs</li>
+                        <li>Excessive trust in client-side validation</li>
+                    </ul>
+                    
+                    <p><strong>Prevention measures:</strong></p>
+                    <ul>
+                        <li>Establish a secure development lifecycle with AppSec professionals</li>
+                        <li>Use threat modeling for critical authentication, access control, business logic, and key flows</li>
+                        <li>Integrate security language and controls into user stories</li>
+                        <li>Use secure design patterns and reuse hardened components</li>
+                        <li>Write unit and integration tests to validate all critical flows are resistant to the threat model</li>
+                    </ul>
+                    
+                    <h2>5. Security Misconfiguration</h2>
+                    <p>Security misconfiguration is the most commonly seen issue, often resulting from insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages.</p>
+                    
+                    <p><strong>Common vulnerabilities include:</strong></p>
+                    <ul>
+                        <li>Missing appropriate security hardening across the application stack</li>
+                        <li>Unnecessary features enabled or installed</li>
+                        <li>Default accounts and passwords still enabled and unchanged</li>
+                        <li>Overly detailed error messages that reveal sensitive information</li>
+                        <li>Not using HTTP security headers</li>
+                    </ul>
+                    
+                    <p><strong>Prevention measures:</strong></p>
+                    <ul>
+                        <li>Develop a repeatable hardening process that makes it fast and easy to deploy</li>
+                        <li>Use a minimal platform without unnecessary features</li>
+                        <li>Review and update configurations appropriate to all security notes, updates, and patches</li>
+                        <li>Segment application architecture with effective separation and security controls</li>
+                        <li>Automate verification of configurations and settings in all environments</li>
+                    </ul>
+                    
+                    <h2>6. Vulnerable and Outdated Components</h2>
+                    <p>This vulnerability occurs when components, such as libraries, frameworks, and other software modules, run with the same privileges as the application but contain flaws that attackers can exploit.</p>
+                    
+                    <p><strong>Common vulnerabilities include:</strong></p>
+                    <ul>
+                        <li>Not knowing the versions of all components you use</li>
+                        <li>Using outdated or vulnerable software, including OS, web/application server, database, applications, APIs, and all components</li>
+                        <li>Not scanning for vulnerabilities regularly</li>
+                        <li>Not fixing or upgrading the underlying platform, frameworks, and dependencies</li>
+                        <li>Not securing the components' configurations</li>
+                    </ul>
+                    
+                    <p><strong>Prevention measures:</strong></p>
+                    <ul>
+                        <li>Remove unused dependencies, unnecessary features, components, files, and documentation</li>
+                        <li>Continuously inventory versions of both client-side and server-side components</li>
+                        <li>Only obtain components from official sources over secure links</li>
+                        <li>Monitor for libraries and components that are unmaintained or don't create security patches</li>
+                        <li>Establish a patch management strategy</li>
+                    </ul>
+                    
+                    <h2>7. Identification and Authentication Failures</h2>
+                    <p>Authentication failures involve functions related to user identity, authentication, and session management that are often implemented incorrectly.</p>
+                    
+                    <p><strong>Common vulnerabilities include:</strong></p>
+                    <ul>
+                        <li>Permitting automated attacks like credential stuffing</li>
+                        <li>Permitting brute force or other automated attacks</li>
+                        <li>Permitting weak or well-known passwords</li>
+                        <li>Using weak or ineffective credential recovery processes</li>
+                        <li>Using plain text, encrypted, or weakly hashed passwords</li>
+                        <li>Missing or ineffective multi-factor authentication</li>
+                    </ul>
+                    
+                    <p><strong>Prevention measures:</strong></p>
+                    <ul>
+                        <li>Implement multi-factor authentication to prevent automated credential stuffing, brute force, and stolen credential reuse</li>
+                        <li>Do not ship or deploy with default credentials</li>
+                        <li>Implement weak password checks</li>
+                        <li>Ensure registration, credential recovery, and API pathways are hardened against account enumeration attacks</li>
+                        <li>Limit or increasingly delay failed login attempts</li>
+                    </ul>
+                    
+                    <h2>8. Software and Data Integrity Failures</h2>
+                    <p>Software and data integrity failures relate to code and infrastructure that does not protect against integrity violations. This includes insecure CI/CD pipelines and using untrusted plugins, libraries, or modules.</p>
+                    
+                    <p><strong>Common vulnerabilities include:</strong></p>
+                    <ul>
+                        <li>Using plugins, libraries, or modules from untrusted sources or CDNs</li>
+                        <li>Using an insecure CI/CD pipeline without verifying code or creating immutable artifacts</li>
+                        <li>Using unsigned or unverified auto-update functionality without sufficient integrity verification</li>
+                        <li>Not checking updates and patches for digital signatures</li>
+                    </ul>
+                    
+                    <p><strong>Prevention measures:</strong></p>
+                    <ul>
+                        <li>Use digital signatures or similar mechanisms to verify the software or data is from the expected source</li>
+                        <li>Ensure libraries and dependencies are consuming trusted repositories</li>
+                        <li>Ensure your CI/CD pipeline has proper segregation, configuration, and access control</li>
+                        <li>Verify that unsigned or unverified code is not loaded into your application</li>
+                    </ul>
+                    
+                    <h2>9. Security Logging and Monitoring Failures</h2>
+                    <p>This category helps detect, escalate, and respond to active breaches. Without logging and monitoring, breaches cannot be detected.</p>
+                    
+                    <p><strong>Common vulnerabilities include:</strong></p>
+                    <ul>
+                        <li>Auditable events, such as logins, failed logins, and high-value transactions, are not logged</li>
+                        <li>Warnings and errors generate no, inadequate, or unclear log messages</li>
+                        <li>Logs of applications and APIs are not monitored for suspicious activity</li>
+                        <li>Logs are only stored locally</li>
+                        <li>No alerting thresholds or response processes in place</li>
+                    </ul>
+                    
+                    <p><strong>Prevention measures:</strong></p>
+                    <ul>
+                        <li>Ensure all login, access control, and server-side input validation failures can be logged with sufficient context</li>
+                        <li>Ensure logs are generated in a format that log management solutions can easily consume</li>
+                        <li>Ensure log data is encoded correctly to prevent injections or attacks on logging systems</li>
+                        <li>Implement audit trails with integrity controls for high-value transactions</li>
+                        <li>Establish effective monitoring and alerting</li>
+                    </ul>
+                    
+                    <h2>10. Server-Side Request Forgery (SSRF)</h2>
+                    <p>SSRF flaws occur whenever a web application is fetching a remote resource without validating the user-supplied URL. It allows attackers to coerce the application to send a crafted request to an unexpected destination.</p>
+                    
+                    <p><strong>Common vulnerabilities include:</strong></p>
+                    <ul>
+                        <li>Accept URLs or file paths as input for server-side requests without validation</li>
+                        <li>Not enforcing URL schema, port, and destination with an allowlist</li>
+                        <li>Not having a deny-by-default policy that blocks access to all internal-only functionality</li>
+                    </ul>
+                    
+                    <p><strong>Prevention measures:</strong></p>
+                    <ul>
+                        <li>Sanitize and validate all client-supplied input data</li>
+                        <li>Enforce the URL schema, port, and destination with an allowlist</li>
+                        <li>Use network segmentation to separate sensitive internal services from the DMZ</li>
+                        <li>Use an application gateway to filter all outbound traffic</li>
+                        <li>Disable HTTP redirections and prevent DNS rebinding attacks with proper DNS configuration</li>
+                    </ul>
+                    
+                    <h2>Conclusion</h2>
+                    <p>The OWASP Top 10 provides a valuable framework for understanding the most critical web application security risks. By addressing these vulnerabilities, organizations can significantly improve their security posture and protect their applications from common attack vectors.</p>
+                    
+                    <p>Remember that security is an ongoing process, not a one-time event. Regular testing, monitoring, and updating of security practices are essential to maintaining a robust security posture against evolving threats.</p>
+                </div>
+                <div class="post-footer">
+                    <a href="../index.html" class="back-link">← Back to Home</a>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Shiva G Prasadh. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

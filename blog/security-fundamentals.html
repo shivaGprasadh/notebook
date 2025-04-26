@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs - Shiva G Prasadh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // List of all blog posts
+            const securityPosts = [
+                {
+                    title: "HTTPS Handshaking and TLS Deep Dive",
+                    url: "https-handshaking-and-tls-deep-dive.html",
+                    excerpt: "Understanding the secure connection establishment process between browsers and web servers through the TLS protocol.",
+                    date: "April 26, 2025",
+                    keywords: ["https", "tls", "encryption", "security protocol", "handshake", "secure connection", "ssl"]
+                },
+                {
+                    title: "The CIA Triad: Cornerstone of Information Security",
+                    url: "the-cia-triad-cornerstone-of-information-security.html",
+                    excerpt: "Exploring the three fundamental principles of information security: Confidentiality, Integrity, and Availability.",
+                    date: "April 26, 2025",
+                    keywords: ["cia triad", "confidentiality", "integrity", "availability", "security principles", "information security"]
+                },
+                {
+                    title: "Cybersecurity Best Practices for 2025",
+                    url: "cybersecurity-best-practices-for-2025.html",
+                    excerpt: "Exploring the essential security practices every organization should implement to protect their digital assets.",
+                    date: "April 15, 2025",
+                    keywords: ["best practices", "cybersecurity", "security practices", "digital assets", "protection"]
+                },
+                {
+                    title: "Understanding Zero Trust Architecture",
+                    url: "understanding-zero-trust-architecture.html",
+                    excerpt: "A deep dive into the Zero Trust security model and how it's revolutionizing enterprise security approaches.",
+                    date: "May 22, 2025",
+                    keywords: ["zero trust", "security model", "enterprise security", "zero trust architecture", "access control"]
+                },
+                {
+                    title: "The Rise of DevSecOps",
+                    url: "the-rise-of-devsecops.html",
+                    excerpt: "How security is being integrated into the DevOps pipeline to ensure safer and more efficient application development.",
+                    date: "June 10, 2025",
+                    keywords: ["devsecops", "devops", "secure development", "pipeline", "application security", "ci/cd"]
+                },
+                {
+                    title: "Ransomware Protection and Recovery",
+                    url: "what-is-ransomware-protection-and-recovery.html",
+                    excerpt: "Comprehensive strategies for protecting against, detecting, containing, and recovering from modern ransomware attacks.",
+                    date: "April 27, 2025",
+                    keywords: ["ransomware", "protection", "recovery", "malware", "cyber attack", "backup"]
+                },
+                {
+                    title: "OWASP Top 10 Security Risks",
+                    url: "owasp-top-10-security-risks.html",
+                    excerpt: "A detailed look at the OWASP Top 10 web application security risks and how to mitigate them effectively.",
+                    date: "April 28, 2025",
+                    keywords: ["owasp", "top 10", "web application", "security risks", "vulnerabilities", "injection", "xss"]
+                },
+                {
+                    title: "Authentication vs. Authorization",
+                    url: "authentication-vs-authorization.html",
+                    excerpt: "Understanding the critical differences between verifying identity and granting access rights in security systems.",
+                    date: "April 30, 2025",
+                    keywords: ["authentication", "authorization", "identity", "access rights", "security controls", "mfa"]
+                },
+                {
+                    title: "Principle of Least Privilege",
+                    url: "principle-of-least-privilege.html",
+                    excerpt: "How minimizing access rights to only what's necessary enhances security and reduces organizational risk.",
+                    date: "May 1, 2025",
+                    keywords: ["least privilege", "access rights", "polp", "security principle", "permissions", "rbac"]
+                }
+            ];
+
+            // Sort posts by date (most recent first)
+            securityPosts.sort((a, b) => {
+                return new Date(b.date) - new Date(a.date);
+            });
+
+            // Pagination settings
+            const postsPerPage = 4;
+            let currentPage = 1;
+            let filteredPosts = [...securityPosts];
+
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+
+            // Function to filter posts based on search query
+            function filterPosts(query) {
+                if (!query || query.trim() === '') {
+                    return securityPosts;
+                }
+                
+                query = query.toLowerCase().trim();
+                return securityPosts.filter(post => {
+                    // Search in title, excerpt and keywords
+                    const titleMatch = post.title.toLowerCase().includes(query);
+                    const excerptMatch = post.excerpt.toLowerCase().includes(query);
+                    const keywordMatch = post.keywords && post.keywords.some(keyword => 
+                        keyword.toLowerCase().includes(query)
+                    );
+                    
+                    return titleMatch || excerptMatch || keywordMatch;
+                });
+            }
+
+            // Event listener for search button
+            searchButton.addEventListener('click', function() {
+                const query = searchInput.value;
+                filteredPosts = filterPosts(query);
+                currentPage = 1;
+                renderPosts();
+                renderPagination();
+            });
+
+            // Event listener for Enter key in search input
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    const query = searchInput.value;
+                    filteredPosts = filterPosts(query);
+                    currentPage = 1;
+                    renderPosts();
+                    renderPagination();
+                }
+            });
+
+            // Function to render posts for current page
+            function renderPosts() {
+                const postsGrid = document.querySelector('.security-posts-grid');
+                if (!postsGrid) return;
+
+                // Clear existing posts
+                postsGrid.innerHTML = '';
+
+                // Calculate posts for current page
+                const startIndex = (currentPage - 1) * postsPerPage;
+                const endIndex = startIndex + postsPerPage;
+                const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+                if (paginatedPosts.length === 0) {
+                    // No results found
+                    const noResults = document.createElement('div');
+                    noResults.className = 'no-results';
+                    noResults.innerHTML = '<p>No posts found matching your search. Try different keywords.</p>';
+                    postsGrid.appendChild(noResults);
+                    return;
+                }
+
+                // Add posts to the grid
+                paginatedPosts.forEach(post => {
+                    const postCard = document.createElement('div');
+                    postCard.className = 'post-card';
+                    
+                    postCard.innerHTML = `
+                        <h3 class="post-title"><a href="${post.url}">${post.title}</a></h3>
+                        <div class="post-meta"><span class="post-date">${post.date}</span></div>
+                        <p class="post-excerpt">${post.excerpt}</p>
+                        <a href="${post.url}" class="read-more">Read More</a>
+                    `;
+                    
+                    postsGrid.appendChild(postCard);
+                });
+            }
+
+            // Function to render pagination controls
+            function renderPagination() {
+                const paginationContainer = document.getElementById('pagination');
+                if (!paginationContainer) return;
+
+                // Clear existing pagination
+                paginationContainer.innerHTML = '';
+
+                // Calculate total pages
+                const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+                
+                if (totalPages <= 1) {
+                    // No need for pagination
+                    return;
+                }
+
+                // Previous button
+                if (currentPage > 1) {
+                    const prevButton = document.createElement('button');
+                    prevButton.className = 'pagination-button prev';
+                    prevButton.textContent = '←';
+                    prevButton.addEventListener('click', () => {
+                        currentPage--;
+                        renderPosts();
+                        renderPagination();
+                        window.scrollTo(0, 0);
+                    });
+                    paginationContainer.appendChild(prevButton);
+                }
+
+                // Page buttons
+                const maxButtons = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+                let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+                // Adjust if we're at the end
+                if (endPage - startPage + 1 < maxButtons && startPage > 1) {
+                    startPage = Math.max(1, endPage - maxButtons + 1);
+                }
+
+                // First page and ellipsis
+                if (startPage > 1) {
+                    const firstButton = document.createElement('button');
+                    firstButton.className = 'pagination-button';
+                    firstButton.textContent = '1';
+                    firstButton.addEventListener('click', () => {
+                        currentPage = 1;
+                        renderPosts();
+                        renderPagination();
+                        window.scrollTo(0, 0);
+                    });
+                    paginationContainer.appendChild(firstButton);
+
+                    if (startPage > 2) {
+                        const ellipsis = document.createElement('span');
+                        ellipsis.className = 'pagination-ellipsis';
+                        ellipsis.textContent = '...';
+                        paginationContainer.appendChild(ellipsis);
+                    }
+                }
+
+                // Page buttons
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.className = 'pagination-button' + (i === currentPage ? ' active' : '');
+                    pageButton.textContent = i;
+                    pageButton.addEventListener('click', () => {
+                        currentPage = i;
+                        renderPosts();
+                        renderPagination();
+                        window.scrollTo(0, 0);
+                    });
+                    paginationContainer.appendChild(pageButton);
+                }
+
+                // Last page and ellipsis
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        const ellipsis = document.createElement('span');
+                        ellipsis.className = 'pagination-ellipsis';
+                        ellipsis.textContent = '...';
+                        paginationContainer.appendChild(ellipsis);
+                    }
+
+                    const lastButton = document.createElement('button');
+                    lastButton.className = 'pagination-button';
+                    lastButton.textContent = totalPages;
+                    lastButton.addEventListener('click', () => {
+                        currentPage = totalPages;
+                        renderPosts();
+                        renderPagination();
+                        window.scrollTo(0, 0);
+                    });
+                    paginationContainer.appendChild(lastButton);
+                }
+
+                // Next button
+                if (currentPage < totalPages) {
+                    const nextButton = document.createElement('button');
+                    nextButton.className = 'pagination-button next';
+                    nextButton.textContent = '→';
+                    nextButton.addEventListener('click', () => {
+                        currentPage++;
+                        renderPosts();
+                        renderPagination();
+                        window.scrollTo(0, 0);
+                    });
+                    paginationContainer.appendChild(nextButton);
+                }
+            }
+
+            // Initialize
+            renderPosts();
+            renderPagination();
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">&lt;/shiva G prasadh&gt;</div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="security-fundamentals.html" class="active">Blogs</a></li>
+                    <li><a href="../about.html">About Me</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1 class="page-title">Security Blog Posts</h1>
+                <p class="page-description">A comprehensive collection of articles on security concepts, tools, and best practices.</p>
+            </div>
+        </section>
+
+        <section class="search-section">
+            <div class="container">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search security articles...">
+                    <button id="search-button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <section class="security-content">
+            <div class="container">
+                <div class="security-posts-grid">
+                    <!-- Posts will be loaded dynamically from JavaScript -->
+                </div>
+                <div class="pagination-container">
+                    <div class="pagination" id="pagination">
+                        <!-- Pagination buttons will be added here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://linkedin.com/" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                <a href="https://twitter.com/" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="https://youtube.com/" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="https://instagram.com/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p>&copy; 2025 Shiva G Prasadh. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
