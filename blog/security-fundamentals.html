@@ -75,6 +75,118 @@
                     excerpt: "How minimizing access rights to only what's necessary enhances security and reduces organizational risk.",
                     date: "May 1, 2025",
                     keywords: ["least privilege", "access rights", "polp", "security principle", "permissions", "rbac"]
+                },
+                {
+                    title: "Secure Coding Practices for Web Development",
+                    url: "secure-coding-practices-for-web-development.html",
+                    excerpt: "Essential coding techniques and patterns to ensure web applications are built with security in mind from the ground up.",
+                    date: "May 5, 2025",
+                    keywords: ["secure coding", "web development", "secure programming", "input validation", "output encoding"]
+                },
+                {
+                    title: "Blockchain Security Fundamentals",
+                    url: "blockchain-security-fundamentals.html",
+                    excerpt: "Understanding the security mechanisms behind blockchain technology and potential vulnerabilities to watch for.",
+                    date: "May 8, 2025",
+                    keywords: ["blockchain", "distributed ledger", "smart contracts", "consensus mechanisms", "cryptocurrency security"]
+                },
+                {
+                    title: "Building Effective Security Awareness Programs",
+                    url: "building-effective-security-awareness-programs.html",
+                    excerpt: "Strategies for creating security awareness initiatives that actually change employee behavior and reduce human-factor risks.",
+                    date: "May 10, 2025",
+                    keywords: ["security awareness", "training", "phishing simulations", "security culture", "employee education"]
+                },
+                {
+                    title: "Intrusion Detection Systems: HIDS vs NIDS",
+                    url: "intrusion-detection-systems-hids-vs-nids.html",
+                    excerpt: "Comparing host-based and network-based intrusion detection approaches and how to implement them effectively.",
+                    date: "May 12, 2025",
+                    keywords: ["ids", "intrusion detection", "hids", "nids", "network monitoring", "security tools"]
+                },
+                {
+                    title: "Cloud Security Best Practices",
+                    url: "cloud-security-best-practices.html",
+                    excerpt: "Essential security controls and approaches for protecting data and applications in cloud environments.",
+                    date: "May 15, 2025",
+                    keywords: ["cloud security", "shared responsibility model", "iaas", "paas", "saas", "cloud configuration"]
+                },
+                {
+                    title: "Security Implications of Quantum Computing",
+                    url: "security-implications-of-quantum-computing.html",
+                    excerpt: "How quantum computing will impact current encryption methods and what organizations should do to prepare.",
+                    date: "May 18, 2025",
+                    keywords: ["quantum computing", "post-quantum cryptography", "encryption", "quantum threats", "cryptographic agility"]
+                },
+                {
+                    title: "Container Security Fundamentals",
+                    url: "container-security-fundamentals.html",
+                    excerpt: "Best practices for securing containerized applications and infrastructure in production environments.",
+                    date: "May 20, 2025",
+                    keywords: ["container security", "docker", "kubernetes", "image scanning", "runtime protection"]
+                },
+                {
+                    title: "Security Logging and Monitoring Essentials",
+                    url: "security-logging-and-monitoring-essentials.html",
+                    excerpt: "Implementing effective logging, monitoring and alerting systems to detect and respond to security incidents.",
+                    date: "May 23, 2025",
+                    keywords: ["security monitoring", "logging", "siem", "log analysis", "security analytics", "threat detection"]
+                },
+                {
+                    title: "API Security: Protecting Your Service Endpoints",
+                    url: "api-security-protecting-your-service-endpoints.html",
+                    excerpt: "Essential security controls and best practices for designing, implementing and testing secure APIs.",
+                    date: "May 25, 2025",
+                    keywords: ["api security", "rest", "graphql", "oauth", "rate limiting", "input validation"]
+                },
+                {
+                    title: "Mobile Application Security Testing",
+                    url: "mobile-application-security-testing.html",
+                    excerpt: "Methodologies and tools for identifying and remediating security vulnerabilities in mobile applications.",
+                    date: "May 28, 2025",
+                    keywords: ["mobile security", "app testing", "android security", "ios security", "penetration testing"]
+                },
+                {
+                    title: "Hardware Security Modules (HSMs)",
+                    url: "hardware-security-modules-hsms.html",
+                    excerpt: "Understanding how HSMs protect cryptographic keys and secure sensitive operations in enterprise environments.",
+                    date: "June 1, 2025",
+                    keywords: ["hsm", "hardware security", "key management", "cryptographic operations", "secure hardware"]
+                },
+                {
+                    title: "Implementing DLP (Data Loss Prevention)",
+                    url: "implementing-dlp-data-loss-prevention.html",
+                    excerpt: "How to deploy and configure effective DLP solutions to protect sensitive data across your organization.",
+                    date: "June 5, 2025",
+                    keywords: ["dlp", "data loss prevention", "data protection", "sensitive data", "exfiltration prevention"]
+                },
+                {
+                    title: "Cryptography Fundamentals for Security Professionals",
+                    url: "cryptography-fundamentals-for-security-professionals.html",
+                    excerpt: "A practical introduction to cryptographic concepts, algorithms, and implementations for security practitioners.",
+                    date: "June 8, 2025",
+                    keywords: ["cryptography", "encryption", "hashing", "digital signatures", "PKI", "key management"]
+                },
+                {
+                    title: "Security in the Internet of Things (IoT)",
+                    url: "security-in-the-internet-of-things-iot.html",
+                    excerpt: "Addressing unique security challenges in IoT ecosystems and how to implement appropriate controls.",
+                    date: "June 12, 2025",
+                    keywords: ["iot security", "internet of things", "embedded security", "smart devices", "iot vulnerabilities"]
+                },
+                {
+                    title: "Advanced Persistent Threats (APTs)",
+                    url: "advanced-persistent-threats-apts.html",
+                    excerpt: "Identifying, defending against, and responding to sophisticated long-term targeted attacks by nation-states and organized threat actors.",
+                    date: "June 15, 2025",
+                    keywords: ["apt", "targeted attacks", "nation-state threats", "persistent threats", "advanced attacks"]
+                },
+                {
+                    title: "Security Compliance Frameworks",
+                    url: "security-compliance-frameworks.html",
+                    excerpt: "Navigating major security compliance frameworks like ISO 27001, SOC 2, HIPAA, and PCI DSS to achieve certification.",
+                    date: "June 18, 2025",
+                    keywords: ["compliance", "regulatory frameworks", "iso 27001", "soc 2", "hipaa", "pci dss"]
                 }
             ];
 
@@ -84,7 +196,7 @@
             });
 
             // Pagination settings
-            const postsPerPage = 4;
+            const postsPerPage = 10;
             let currentPage = 1;
             let filteredPosts = [...securityPosts];
 
@@ -158,11 +270,27 @@
                     const postCard = document.createElement('div');
                     postCard.className = 'post-card';
                     
+                    // List of completed blog posts that exist as actual files
+                    const completedPosts = [
+                        "security-fundamentals.html",
+                        "authentication-vs-authorization.html",
+                        "principle-of-least-privilege.html",
+                        "the-cia-triad-cornerstone-of-information-security.html",
+                        "cybersecurity-best-practices-for-2025.html",
+                        "understanding-zero-trust-architecture.html",
+                        "the-rise-of-devsecops.html",
+                        "what-is-ransomware-protection-and-recovery.html",
+                        "owasp-top-10-security-risks.html",
+                        "https-handshaking-and-tls-deep-dive.html"
+                    ];
+                    // Use under-construction.html for blog posts that aren't completed yet
+                    const actualUrl = completedPosts.includes(post.url) ? post.url : "under-construction.html";
+                    
                     postCard.innerHTML = `
-                        <h3 class="post-title"><a href="${post.url}">${post.title}</a></h3>
+                        <h3 class="post-title"><a href="${actualUrl}">${post.title}</a></h3>
                         <div class="post-meta"><span class="post-date">${post.date}</span></div>
                         <p class="post-excerpt">${post.excerpt}</p>
-                        <a href="${post.url}" class="read-more">Read More</a>
+                        <a href="${actualUrl}" class="read-more">Read More</a>
                     `;
                     
                     postsGrid.appendChild(postCard);
